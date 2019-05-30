@@ -10,6 +10,7 @@ import { RedComponentComponent } from '../red-component/red-component.component'
     '../../../node_modules/ag-grid-community/dist/styles/ag-theme-balham.css'
   ],
 })
+
 export class GridComponentComponent {
   private gridOptions: GridOptions;
 
