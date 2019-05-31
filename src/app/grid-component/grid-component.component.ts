@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
-import { GridOptions } from 'ag-grid-community';
-import { RedComponentComponent } from '../red-component/red-component.component';
+import { Component, OnInit } from '@angular/core';
+import { YoutubeService } from '../core/services/youtube.service';
+import { YoutubeResponseModel } from '../models/youtube-response-model';
+import { CustomComponentComponent } from '../custom-toolbar/custom-component.component';
+import 'ag-grid-enterprise';
 
 @Component({
   selector: 'app-grid-component',
@@ -11,30 +13,79 @@ import { RedComponentComponent } from '../red-component/red-component.component'
   ],
 })
 
-export class GridComponentComponent {
-  private gridOptions: GridOptions;
+export class GridComponentComponent implements OnInit {
+  private res: any;
+  private items: any;
 
-  constructor() {
-    this.gridOptions = <GridOptions>{};
-    this.gridOptions.columnDefs = [
+  sideBar = {
+    toolPanels: [
       {
-        headerName: 'ID',
-        field: 'id',
-        width: 100
-      },
-      {
-        headerName: 'Value',
-        field: 'value',
-        cellRendererFramework: RedComponentComponent,
-        width: 100
-      },
+        id: 'Toolbar',
+        labelDefault: 'Columns',
+        labelKey: 'columns',
+        iconKey: 'columns',
+        toolPanel: 'customComponentComponent',
+      }
+    ],
+    defaultToolPanel: 'filters'
+  };
 
-    ];
-    this.gridOptions.rowData = [
-      { id: 5, value: 10 },
-      { id: 10, value: 15 },
-      { id: 15, value: 20 }
-    ];
+  frameworkComponents = { customComponentComponent: CustomComponentComponent };
+
+  defaultColDef = {
+    enableValue: true,
+    enableRowGroup: true,
+    enablePivot: true,
+    sortable: true,
+    filter: true
+  };
+
+  columnDefs = [
+    {
+      headerName: 'thumbnail',
+      field: 'thumbnail',
+      checkboxSelection: true
+    },
+    {
+      headerName: 'Published on',
+      field: 'publishedAt'
+    },
+    {
+      headerName: 'Video Title',
+      field: 'title',
+      cellRenderer: function (params) {
+        return '<a href="https://www.youtube.com/watch?v=' + params.data.videoLink + '" target="_blank">' + params.value + '</a>';
+      }
+    },
+    {
+      headerName: 'Description',
+      field: 'description'
+    },
+
+  ];
+
+  constructor(private youtubeService: YoutubeService) {
+  }
+
+  ngOnInit() {
+    this.youtubeService.getYoutubeData().subscribe((data: YoutubeResponseModel) => {
+      this.res = data.items;
+      this.items = this.res.map(x => {
+        const model = {
+          thumbnail: x.snippet.thumbnails.default.url,
+          publishedAt: x.snippet.publishedAt,
+          title: x.snippet.title,
+          videoLink: x.id.videoId,
+          description: x.snippet.description,
+        };
+        return model;
+      });
+    });
+  }
+
+  test() {
+    debugger;
+    console.log("work");
   }
 
 }

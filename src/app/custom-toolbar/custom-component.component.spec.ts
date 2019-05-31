@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RedComponentComponent } from './red-component.component';
+import { CustomComponentComponent } from './custom-component.component';
 
 describe('RedComponentComponent', () => {
-  let component: RedComponentComponent;
-  let fixture: ComponentFixture<RedComponentComponent>;
+  let component: CustomComponentComponent;
+  let fixture: ComponentFixture<CustomComponentComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RedComponentComponent ]
+      declarations: [ CustomComponentComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RedComponentComponent);
+    fixture = TestBed.createComponent(CustomComponentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
