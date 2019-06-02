@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { GridComponentComponent } from './grid-component/grid-component.component';
 import { CustomComponentComponent } from './custom-toolbar/custom-component.component';
 import { environment } from 'src/environments/environment.prod';
+import { CustomHeaderComponent } from './custom-header/custom-header.component';
 
 export function initConfiguration(appConfig: ApiConfiguration): Function {
   return () => {
@@ -21,14 +22,15 @@ export function initConfiguration(appConfig: ApiConfiguration): Function {
   declarations: [
     AppComponent,
     GridComponentComponent,
-    CustomComponentComponent
+    CustomComponentComponent,
+    CustomHeaderComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     AgGridModule.withComponents(
-      [CustomComponentComponent]
+      [CustomComponentComponent, CustomHeaderComponent]
     )
   ],
   providers: [YoutubeService],

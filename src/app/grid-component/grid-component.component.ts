@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { YoutubeService } from '../core/services/youtube.service';
 import { YoutubeResponseModel } from '../models/youtube-response-model';
 import { CustomComponentComponent } from '../custom-toolbar/custom-component.component';
 import 'ag-grid-enterprise';
+import { GridOptions } from 'ag-grid-community';
+import { CustomHeaderComponent } from '../custom-header/custom-header.component';
 
 @Component({
   selector: 'app-grid-component',
@@ -12,10 +14,10 @@ import 'ag-grid-enterprise';
     '../../../node_modules/ag-grid-community/dist/styles/ag-theme-balham.css'
   ],
 })
-
 export class GridComponentComponent implements OnInit {
   private res: any;
   private items: any;
+  private gridOptions: GridOptions;
 
   sideBar = {
     toolPanels: [
@@ -31,6 +33,7 @@ export class GridComponentComponent implements OnInit {
   };
 
   frameworkComponents = { customComponentComponent: CustomComponentComponent };
+  //, agColumnHeader: CustomHeaderComponent
 
   defaultColDef = {
     enableValue: true,
@@ -40,11 +43,24 @@ export class GridComponentComponent implements OnInit {
     filter: true
   };
 
+  rowSelection = "multiple";
+
   columnDefs = [
     {
-      headerName: 'thumbnail',
+      field: "",
+      checkboxSelection: true,
+      width: 100,
+      hide: true,
+      colId: "checkBoxCol",
+      headerComponentFramework: CustomHeaderComponent
+      //headerCheckboxSelection: true
+    },
+    {
+      headerName: '',
       field: 'thumbnail',
-      checkboxSelection: true
+      cellRenderer: function (params) {
+        return '<img src=' + params.value + '>';
+      }
     },
     {
       headerName: 'Published on',
@@ -64,7 +80,29 @@ export class GridComponentComponent implements OnInit {
 
   ];
 
+  getContextMenuItems(params) {
+    var result = [
+      'copy',
+      'copyWithHeaders',
+      'paste',
+      {
+        name: "Open in new tab",
+        action: function() {
+          debugger;
+          window.open("https://www.youtube.com/watch?v=" + params.node.data.videoLink);
+        }
+      }      
+
+    ];
+    return result;
+  }
+
   constructor(private youtubeService: YoutubeService) {
+    this.gridOptions = <GridOptions>{
+      context: {
+        componentParent: this
+      }
+    };
   }
 
   ngOnInit() {
@@ -82,10 +120,4 @@ export class GridComponentComponent implements OnInit {
       });
     });
   }
-
-  test() {
-    debugger;
-    console.log("work");
-  }
-
 }
