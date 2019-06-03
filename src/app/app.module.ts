@@ -8,7 +8,7 @@ import { YoutubeService } from './core/services/youtube.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GridComponentComponent } from './grid-component/grid-component.component';
-import { CustomComponentComponent } from './custom-toolbar/custom-component.component';
+import { CustomToolbarComponent } from './custom-toolbar/custom-toolbar.component';
 import { environment } from 'src/environments/environment.prod';
 import { CustomHeaderComponent } from './custom-header/custom-header.component';
 
@@ -22,7 +22,7 @@ export function initConfiguration(appConfig: ApiConfiguration): Function {
   declarations: [
     AppComponent,
     GridComponentComponent,
-    CustomComponentComponent,
+    CustomToolbarComponent,
     CustomHeaderComponent
   ],
   imports: [
@@ -30,7 +30,7 @@ export function initConfiguration(appConfig: ApiConfiguration): Function {
     HttpClientModule,
     AppRoutingModule,
     AgGridModule.withComponents(
-      [CustomComponentComponent, CustomHeaderComponent]
+      [CustomToolbarComponent, CustomHeaderComponent]
     )
   ],
   providers: [YoutubeService],

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { YoutubeService } from '../core/services/youtube.service';
 import { YoutubeResponseModel } from '../models/youtube-response-model';
-import { CustomComponentComponent } from '../custom-toolbar/custom-component.component';
+import { CustomToolbarComponent } from '../custom-toolbar/custom-toolbar.component';
 import 'ag-grid-enterprise';
 import { GridOptions } from 'ag-grid-community';
 import { CustomHeaderComponent } from '../custom-header/custom-header.component';
@@ -26,14 +26,13 @@ export class GridComponentComponent implements OnInit {
         labelDefault: 'Columns',
         labelKey: 'columns',
         iconKey: 'columns',
-        toolPanel: 'customComponentComponent',
+        toolPanel: 'customToolBarComponent',
       }
     ],
     defaultToolPanel: 'filters'
   };
 
-  frameworkComponents = { customComponentComponent: CustomComponentComponent };
-  //, agColumnHeader: CustomHeaderComponent
+  frameworkComponents = { customToolBarComponent: CustomToolbarComponent };
 
   defaultColDef = {
     enableValue: true,
@@ -43,17 +42,16 @@ export class GridComponentComponent implements OnInit {
     filter: true
   };
 
-  rowSelection = "multiple";
+  rowSelection = 'multiple';
 
   columnDefs = [
     {
-      field: "",
+      field: '',
       checkboxSelection: true,
       width: 100,
       hide: true,
-      colId: "checkBoxCol",
+      colId: 'checkBoxCol',
       headerComponentFramework: CustomHeaderComponent
-      //headerCheckboxSelection: true
     },
     {
       headerName: '',
@@ -81,17 +79,16 @@ export class GridComponentComponent implements OnInit {
   ];
 
   getContextMenuItems(params) {
-    var result = [
+    const result = [
       'copy',
       'copyWithHeaders',
       'paste',
       {
-        name: "Open in new tab",
+        name: 'Open in new tab',
         action: function() {
-          debugger;
-          window.open("https://www.youtube.com/watch?v=" + params.node.data.videoLink);
+          window.open('https://www.youtube.com/watch?v=' + params.node.data.videoLink);
         }
-      }      
+      }
 
     ];
     return result;
