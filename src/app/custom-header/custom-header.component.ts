@@ -1,15 +1,13 @@
 import { Component } from '@angular/core';
-import { IToolPanel, IToolPanelParams, GridOptions } from 'ag-grid-community';
 
 @Component({
   selector: 'app-custom-header',
-  templateUrl: './custom-header.component.html',
-  styleUrls: ['./custom-header.component.css']
+  templateUrl: './custom-header.component.html'
 })
 export class CustomHeaderComponent {
 
   private params: any;
-  private isChecked: boolean;
+  public isChecked: boolean;
 
   agInit(params): void {
     this.params = params;
@@ -24,12 +22,22 @@ export class CustomHeaderComponent {
     }
     this.params.api.deselectAll();
   }
+
+  getSelectedRowsWrapper() {
+    return this.params.api.getSelectedRows().length;
+  }
+
+  getDisplayedRowCountWrapper() {
+    return this.params.api.getDisplayedRowCount();
+  }
+
+
   updateCheckBox() {
-    if (this.params.api.getSelectedRows().length === this.params.api.getDisplayedRowCount()) {
+    if (this.getSelectedRowsWrapper() === this.getDisplayedRowCountWrapper()) {
       this.isChecked = true;
       return;
     }
-    if (this.params.api.getSelectedRows().length > 0) {
+    if (this.getSelectedRowsWrapper() > 0) {
       this.isChecked = false;
     }
   }

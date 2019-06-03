@@ -7,9 +7,10 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class YoutubeService {
 
-    private youtubeUrl: string;
-
     constructor(private http: HttpClient, private config: ApiConfiguration) { }
+    public static youtubeEndpoint = 'https://www.youtube.com/watch?v=';
+
+    private youtubeUrl: string;
 
     getYoutubeData(): Observable<YoutubeResponseModel> {
         this.youtubeUrl = this.config.youtubeEndpoint;

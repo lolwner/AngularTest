@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { IToolPanel, IToolPanelParams, GridOptions } from 'ag-grid-community';
-
 @Component({
   selector: 'app-custom-toolbar-component',
   templateUrl: './custom-toolbar.component.html',
@@ -11,17 +10,23 @@ export class CustomToolbarComponent {
   public recordsCount: any;
   public selectedCount: any;
 
-  @Output() selectModeEvent = new EventEmitter();
-
-  agInit(params: any): void {
+  agInit(params): void {
     this.params = params;
     this.params.api.addEventListener('modelUpdated', this.updateCount.bind(this));
     this.params.api.addEventListener('rowSelected', this.updateCount.bind(this));
   }
 
+  getDisplayedRowCountWrapper() {
+    return this.params.api.getDisplayedRowCount();
+  }
+
+  getSelectedRowsWrapper() {
+    return this.params.api.getSelectedRows().length;
+  }
+
   updateCount() {
-    this.recordsCount = this.params.api.getDisplayedRowCount();
-    this.selectedCount = this.params.api.getSelectedRows().length;
+    this.recordsCount = this.getDisplayedRowCountWrapper();
+    this.selectedCount = this.getSelectedRowsWrapper();
   }
 
   onSelectionModeClick() {
