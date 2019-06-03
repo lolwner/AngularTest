@@ -19,11 +19,16 @@ export class CustomHeaderComponent {
   checkValue(event) {
     if (event.currentTarget.checked) {
       this.params.api.selectAll();
+      this.isChecked = true;
       return;
     }
     this.params.api.deselectAll();
   }
   updateCheckBox() {
+    if (this.params.api.getSelectedRows().length === this.params.api.getDisplayedRowCount()) {
+      this.isChecked = true;
+      return;
+    }
     if (this.params.api.getSelectedRows().length > 0) {
       this.isChecked = false;
     }
